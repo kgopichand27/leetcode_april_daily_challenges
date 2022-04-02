@@ -1,0 +1,92 @@
+problem link: https://leetcode.com/problems/valid-palindrome-ii/
+approaches:
+1: Brute force
+   TC: O(n2)
+   result: TLE 
+   description:
+   ** remove one character from string and check it is palin or not **
+   * run loop for n(length of string)
+     for each iteration take substring from 0:i + i+1:end of string
+     check whether it is palindrome or not
+
+   code:
+    class Solution 
+    {
+    public boolean validPalindrome(String s) {
+        if(s.length()==1) return true;
+        boolean flag=false;
+        for(int i=0; i<s.length(); i++){
+            String str=s.substring(0,i)+s.substring(i+1);
+            if(ispalin(str)) return true;
+        }
+        return false;
+    }
+    boolean ispalin(String s){
+        int i=0,j=s.length()-1;
+        while(i<j)
+        {
+            if(s.charAt(i)!=s.charAt(j))
+                return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+    }
+
+2. Two pointers:
+   TC: O(n)
+   result: accepted  
+   code:
+   class Solution {
+   public boolean validPalindrome(String s) {
+    int i=0,j=s.length()-1;
+        while(i<j){
+            if(s.charAt(i)!=s.charAt(j))
+            {
+                return (ispalin(s,i,j-1)||ispalin(s,i+1,j));
+            }
+            i++;
+            j--;
+        }
+        return true;
+     }
+
+    boolean ispalin(String s,int i,int j){
+        while(i<j)
+        {
+            if(s.charAt(i)!=s.charAt(j))
+                return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+    }
+
+ 3: recursion:
+    TC: O(n/2)
+    result: accepted
+    class Solution 
+    {
+    public boolean validPalindrome(String s) {
+    return valid(s,0,s.length()-1,1);
+    }
+    public boolean valid(String s,int i,int j,int c)
+    {
+        while(i<j)
+        {
+            if(s.charAt(i)!=s.charAt(j))
+            {
+                if(c>0)
+                return (valid(s,i+1,j,c-1)||valid(s,i,j-1,c-1));
+                else
+                    return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+    }  
+
